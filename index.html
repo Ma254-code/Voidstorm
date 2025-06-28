@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Auftragsverwaltung</title>
+  <title>Auftragsverwaltung mit Discord</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
@@ -29,17 +29,20 @@
     ];
 
     let currentUser = null;
+    const webhookURL = "https://discord.com/api/webhooks/1388602587217137814/n2YvLRetuZmJEr926cs4cHvISulOzpvnJgQO7nxvaPhLncMB3zXbMdK91WJ0SSw7yhnA"; // ⚠️ Ersetze hier mit deiner echten Webhook URL
 
-    // Lade Aufträge aus LocalStorage oder Default
-    let auftraege = JSON.parse(localStorage.getItem('auftraege')) || [
-      { id: 1, text: 'Tebex', owner: null },
-      { id: 2, text: 'Rang PLugin', owner: null },
-      { id: 3, text: 'Ban Plugin', owner: null },
-    ];
+    const defaultAuftraege = [
+  { id: 1, text: 'Tebex' owner: null },
+  { id: 2, text: 'Rang Plugin', owner: null },
+  { id: 3, text: 'Ban Plugin', owner: null },
+];
 
-    function saveAuftraege() {
-      localStorage.setItem('auftraege', JSON.stringify(auftraege));
-    }
+// Immer LocalStorage mit defaultAuftraege überschreiben:
+localStorage.setItem('auftraege', JSON.stringify(defaultAuftraege));
+
+// Dann laden:
+let auftraege = JSON.parse(localStorage.getItem('auftraege'));
+
 
     function login() {
       const u = document.getElementById('username').value;
@@ -79,6 +82,7 @@
       if (a.owner === null) {
         a.owner = currentUser;
         saveAuftraege();
+        sendToDiscord(`${currentUser} hat "${a.text}" übernommen.`);
         renderAuftraege();
       }
     }
@@ -88,10 +92,23 @@
       if (a.owner === currentUser) {
         a.owner = null;
         saveAuftraege();
+        sendToDiscord(`${currentUser} hat "${a.text}" freigegeben.`);
         renderAuftraege();
       }
     }
+
+    function sendToDiscord(message) {
+      fetch(webhookURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: message })
+      })
+      .then(res => {
+        if (!res.ok) console.log('Webhook Fehler:', res.status);
+      })
+      .catch(err => console.log('Webhook Error:', err));
+    }
   </script>
+
 </body>
 </html>
-
