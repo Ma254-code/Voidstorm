@@ -2,61 +2,43 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Auftragsverwaltung mit Discord</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auftragsverwaltung</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="bg-gray-100">
+<body>
 
-  <div id="login" class="max-w-md mx-auto mt-20 p-6 bg-white rounded-xl shadow-md">
-    <h2 class="text-2xl font-bold mb-4 text-center">Login</h2>
-    <input type="text" id="username" placeholder="Benutzername" class="w-full border px-3 py-2 mb-3 rounded" />
-    <input type="password" id="password" placeholder="Passwort" class="w-full border px-3 py-2 mb-3 rounded" />
-    <button onclick="login()" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Login</button>
-    <div id="loginMsg" class="text-red-500 mt-2 text-center"></div>
+  <div id="login-container" class="container">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Benutzername" autocomplete="off" />
+    <input type="password" id="password" placeholder="Passwort" autocomplete="off" />
+    <button id="login-btn">Einloggen</button>
+    <div id="error-msg"></div>
   </div>
 
-  <div id="main" class="hidden max-w-xl mx-auto mt-10">
-    <h2 class="text-3xl font-bold mb-6 text-center">Aufträge</h2>
-    <div id="auftraege" class="space-y-4"></div>
+  <div id="main-container" class="container" style="display:none;">
+    <h2>Aufträge</h2>
+    <div id="auftraege"></div>
   </div>
 
   <script>
     const users = [
       { username: 'Admin', password: 'Admin' },
-      { username: 'Benn1', password: 'BlackStudio3013' },
+      { username: 'Benn1', password: 'Benn1' },
       { username: 'luca', password: 'Voidstorm1532' }
     ];
 
     let currentUser = null;
-    const webhookURL = "https://discord.com/api/webhooks/1388602587217137814/n2YvLRetuZmJEr926cs4cHvISulOzpvnJgQO7nxvaPhLncMB3zXbMdK91WJ0SSw7yhnA"; // ⚠️ Ersetze hier mit deiner echten Webhook URL
 
-    const defaultAuftraege = [
-  { id: 1, text: 'Tebex' owner: null },
-  { id: 2, text: 'Rang Plugin', owner: null },
-  { id: 3, text: 'Ban Plugin', owner: null },
-];
+    // Beispielaufträge (kannst du im Script ändern)
+    let auftraege = JSON.parse(localStorage.getItem('auftraege')) || [
+      { id: 1, text: 'Script Auftrag 1', owner: null },
+      { id: 2, text: 'Script Auftrag 2', owner: null },
+      { id: 3, text: 'Script Auftrag 3', owner: null }
+    ];
 
-// Immer LocalStorage mit defaultAuftraege überschreiben:
-localStorage.setItem('auftraege', JSON.stringify(defaultAuftraege));
-
-// Dann laden:
-let auftraege = JSON.parse(localStorage.getItem('auftraege'));
-
-
-    function login() {
-      const u = document.getElementById('username').value;
-      const p = document.getElementById('password').value;
-      const found = users.find(user => user.username === u && user.password === p);
-
-      if (found) {
-        currentUser = found.username;
-        document.getElementById('login').classList.add('hidden');
-        document.getElementById('main').classList.remove('hidden');
-        renderAuftraege();
-      } else {
-        document.getElementById('loginMsg').innerText = 'Falsche Login-Daten';
-      }
+    function saveAuftraege() {
+      localStorage.setItem('auftraege', JSON.stringify(auftraege));
     }
 
     function renderAuftraege() {
@@ -64,22 +46,41 @@ let auftraege = JSON.parse(localStorage.getItem('auftraege'));
       container.innerHTML = '';
       auftraege.forEach(a => {
         const div = document.createElement('div');
-        div.className = 'bg-white p-4 rounded shadow';
+        div.className = 'task';
+
         div.innerHTML = `
-          <div class="text-lg font-semibold mb-2">${a.text}</div>
-          <div class="mb-2">Status: ${a.owner ? `<span class="text-green-600 font-bold">Übernommen von ${a.owner}</span>` : '<span class="text-gray-500">Frei</span>'}</div>
+          <div class="task-title">${a.text}</div>
+          <div class="task-status">Status: ${a.owner ? `<strong style="color:green;">Übernommen von ${a.owner}</strong>` : '<span style="color:#777;">Frei</span>'}</div>
           <div>
-            ${a.owner === null ? `<button onclick="uebernehmen(${a.id})" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Übernehmen</button>` : ''}
-            ${a.owner === currentUser ? `<button onclick="freigeben(${a.id})" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 ml-2">Freigeben</button>` : ''}
+            ${a.owner === null ? `<button class="small-btn übernehmen" onclick="uebernehmen(${a.id})">Übernehmen</button>` : ''}
+            ${a.owner === currentUser ? `<button class="small-btn freigeben" onclick="freigeben(${a.id})">Freigeben</button>` : ''}
           </div>
         `;
         container.appendChild(div);
       });
     }
 
-    function uebernehmen(id) {
+    function login() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      const user = users.find(u => u.username === username && u.password === password);
+      const errorMsg = document.getElementById('error-msg');
+
+      if(user) {
+        currentUser = user.username;
+        document.getElementById('login-container').style.display = 'none';
+        document.getElementById('main-container').style.display = 'block';
+        errorMsg.textContent = '';
+        renderAuftraege();
+      } else {
+        errorMsg.textContent = 'Falscher Benutzername oder Passwort!';
+      }
+    }
+
+    function übernehmen(id) {
       const a = auftraege.find(a => a.id === id);
-      if (a.owner === null) {
+      if(a.owner === null) {
         a.owner = currentUser;
         saveAuftraege();
         sendToDiscord(`${currentUser} hat "${a.text}" übernommen.`);
@@ -89,7 +90,7 @@ let auftraege = JSON.parse(localStorage.getItem('auftraege'));
 
     function freigeben(id) {
       const a = auftraege.find(a => a.id === id);
-      if (a.owner === currentUser) {
+      if(a.owner === currentUser) {
         a.owner = null;
         saveAuftraege();
         sendToDiscord(`${currentUser} hat "${a.text}" freigegeben.`);
@@ -98,17 +99,27 @@ let auftraege = JSON.parse(localStorage.getItem('auftraege'));
     }
 
     function sendToDiscord(message) {
+      // Deine Webhook URL hier einfügen
+      const webhookURL = "DEIN_DISCORD_WEBHOOK_URL";
+
       fetch(webhookURL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: message })
-      })
-      .then(res => {
-        if (!res.ok) console.log('Webhook Fehler:', res.status);
-      })
-      .catch(err => console.log('Webhook Error:', err));
+      }).catch(e => {
+        // Falls der Webhook fehlschlägt, nicht stören
+        console.warn('Webhook Fehler:', e);
+      });
     }
+
+    document.getElementById('login-btn').addEventListener('click', login);
+
+    // Optional: Login auch per Enter-Taste auslösen
+    document.getElementById('password').addEventListener('keypress', e => {
+      if(e.key === 'Enter') login();
+    });
   </script>
 
 </body>
 </html>
+
