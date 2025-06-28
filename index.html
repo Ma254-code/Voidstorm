@@ -1,119 +1,104 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Auftragsverwaltung</title>
-  <style>
-    body {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0; padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-      color: #333;
-    }
-
-    .container {
-      background: white;
-      margin-top: 5rem;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-      width: 360px;
-    }
-
-    h2 {
-      text-align: center;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      color: #4b0082;
-    }
-
-    input[type="text"], input[type="password"] {
-      width: 100%;
-      padding: 0.7rem 1rem;
-      margin-bottom: 1rem;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: border-color 0.3s ease;
-    }
-
-    input[type="text"]:focus, input[type="password"]:focus {
-      border-color: #764ba2;
-      outline: none;
-    }
-
-    button {
-      width: 100%;
-      padding: 0.8rem;
-      background: #764ba2;
-      border: none;
-      color: white;
-      font-size: 1.1rem;
-      font-weight: 600;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    button:hover {
-      background: #5a3578;
-    }
-
-    .task {
-      background: #f4f0fb;
-      border-radius: 8px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      box-shadow: 0 5px 15px rgba(118, 75, 162, 0.15);
-    }
-
-    .task-title {
-      font-weight: 600;
-      margin-bottom: 0.4rem;
-      color: #4b0082;
-    }
-
-    .task-status {
-      margin-bottom: 0.7rem;
-      font-size: 0.9rem;
-    }
-
-    button.small-btn {
-      width: auto;
-      padding: 0.4rem 0.8rem;
-      margin-right: 0.5rem;
-      font-size: 0.9rem;
-      border-radius: 6px;
-    }
-
-    button.overnehmen {
-      background: #4caf50;
-    }
-
-    button.overnehmen:hover {
-      background: #3b8c3b;
-    }
-
-    button.freigeben {
-      background: #e53935;
-    }
-
-    button.freigeben:hover {
-      background: #b32b28;
-    }
-
-    #error-msg {
-      color: #e53935;
-      text-align: center;
-      margin-top: 0.5rem;
-      font-weight: 600;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Auftragsverwaltung</title>
+<style>
+  body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0; padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    color: #333;
+  }
+  .container {
+    background: white;
+    margin-top: 5rem;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    width: 360px;
+  }
+  h2 {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #4b0082;
+  }
+  input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+  input[type="text"]:focus, input[type="password"]:focus {
+    border-color: #764ba2;
+    outline: none;
+  }
+  button {
+    width: 100%;
+    padding: 0.8rem;
+    background: #764ba2;
+    border: none;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: #5a3578;
+  }
+  .task {
+    background: #f4f0fb;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 5px 15px rgba(118, 75, 162, 0.15);
+  }
+  .task-title {
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: #4b0082;
+  }
+  .task-status {
+    margin-bottom: 0.7rem;
+    font-size: 0.9rem;
+  }
+  button.small-btn {
+    width: auto;
+    padding: 0.4rem 0.8rem;
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+    border-radius: 6px;
+  }
+  button.overnehmen {
+    background: #4caf50;
+  }
+  button.overnehmen:hover {
+    background: #3b8c3b;
+  }
+  button.freigeben {
+    background: #e53935;
+  }
+  button.freigeben:hover {
+    background: #b32b28;
+  }
+  #error-msg {
+    color: #e53935;
+    text-align: center;
+    margin-top: 0.5rem;
+    font-weight: 600;
+  }
+</style>
 </head>
 <body>
 
@@ -130,94 +115,119 @@
     <div id="auftraege"></div>
   </div>
 
-  <script>
-    const users = [
-      { username: 'Admin', password: 'Admin' },
-      { username: 'Benn1', password: 'BlackStudio3013' },
-      { username: 'luca', password: 'Voidstorm1532' }
-    ];
+<script>
+  const users = [
+    { username: 'Admin', password: 'Admin' },
+    { username: 'Benn1', password: 'BlackStudio3013' },
+    { username: 'luca', password: 'Voidstorm1532' }
+  ];
 
-    let currentUser = null;
+  let currentUser = null;
 
-    let auftraege = [
-      { id: 1, text: 'Tebex', owner: null },
-      { id: 2, text: 'Rang plugin', owner: null },
-      { id: 3, text: 'Ban plugin', owner: null }
-    ];
+  let auftraege = [
+    { id: 1, text: 'Tebex', owner: null },
+    { id: 2, text: 'Rang plugin', owner: null },
+    { id: 3, text: 'Ban plugin', owner: null }
+  ];
 
-    function renderAuftraege() {
-      const container = document.getElementById('auftraege');
-      container.innerHTML = '';
-      auftraege.forEach(a => {
-        const div = document.createElement('div');
-        div.className = 'task';
+  function renderAuftraege() {
+    const container = document.getElementById('auftraege');
+    container.innerHTML = '';
 
-        div.innerHTML = `
-          <div class="task-title">${a.text}</div>
-          <div class="task-status">Status: ${a.owner ? `<strong style="color:green;">Übernommen von ${a.owner}</strong>` : '<span style="color:#777;">Frei</span>'}</div>
-          <div>
-            ${a.owner === null ? `<button class="small-btn übernehmen" onclick="uebernehmen(${a.id})">Übernehmen</button>` : ''}
-            ${a.owner === currentUser ? `<button class="small-btn freigeben" onclick="freigeben(${a.id})">Freigeben</button>` : ''}
-          </div>
-        `;
-        container.appendChild(div);
-      });
-    }
+    auftraege.forEach(a => {
+      const taskDiv = document.createElement('div');
+      taskDiv.className = 'task';
 
-    function login() {
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value;
+      const titleDiv = document.createElement('div');
+      titleDiv.className = 'task-title';
+      titleDiv.textContent = a.text;
 
-      const user = users.find(u => u.username === username && u.password === password);
-      const errorMsg = document.getElementById('error-msg');
+      const statusDiv = document.createElement('div');
+      statusDiv.className = 'task-status';
+      statusDiv.innerHTML = 'Status: ' + (a.owner ? `<strong style="color:green;">Übernommen von ${a.owner}</strong>` : '<span style="color:#777;">Frei</span>');
 
-      if(user) {
-        currentUser = user.username;
-        document.getElementById('login-container').style.display = 'none';
-        document.getElementById('main-container').style.display = 'block';
-        errorMsg.textContent = '';
-        renderAuftraege();
-      } else {
-        errorMsg.textContent = 'Falscher Benutzername oder Passwort!';
-      }
-    }
+      const buttonsDiv = document.createElement('div');
 
-    function übernehmen(id) {
-      const a = auftraege.find(a => a.id === id);
       if(a.owner === null) {
-        a.owner = currentUser;
-        sendToDiscord(`${currentUser} hat Auftrag "${a.text}" übernommen.`);
-        renderAuftraege();
+        const btnUebernehmen = document.createElement('button');
+        btnUebernehmen.className = 'small-btn übernehmen';
+        btnUebernehmen.textContent = 'Übernehmen';
+        btnUebernehmen.addEventListener('click', () => übernehmen(a.id));
+        buttonsDiv.appendChild(btnUebernehmen);
       }
-    }
 
-    function freigeben(id) {
-      const a = auftraege.find(a => a.id === id);
       if(a.owner === currentUser) {
-        a.owner = null;
-        sendToDiscord(`${currentUser} hat Auftrag "${a.text}" freigegeben.`);
-        renderAuftraege();
+        const btnFreigeben = document.createElement('button');
+        btnFreigeben.className = 'small-btn freigeben';
+        btnFreigeben.textContent = 'Freigeben';
+        btnFreigeben.addEventListener('click', () => freigeben(a.id));
+        buttonsDiv.appendChild(btnFreigeben);
       }
-    }
 
-    function sendToDiscord(message) {
-      const webhookURL = "DEIN_DISCORD_WEBHOOK_URL_HIER";
+      taskDiv.appendChild(titleDiv);
+      taskDiv.appendChild(statusDiv);
+      taskDiv.appendChild(buttonsDiv);
 
-      fetch(webhookURL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: message })
-      }).catch(e => {
-        console.warn('Webhook Fehler:', e);
-      });
-    }
-
-    document.getElementById('login-btn').addEventListener('click', login);
-
-    document.getElementById('password').addEventListener('keypress', e => {
-      if(e.key === 'Enter') login();
+      container.appendChild(taskDiv);
     });
-  </script>
+  }
+
+  function login() {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+
+    const user = users.find(u => u.username === username && u.password === password);
+    const errorMsg = document.getElementById('error-msg');
+
+    if(user) {
+      currentUser = user.username;
+      document.getElementById('login-container').style.display = 'none';
+      document.getElementById('main-container').style.display = 'block';
+      errorMsg.textContent = '';
+      renderAuftraege();
+    } else {
+      errorMsg.textContent = 'Falscher Benutzername oder Passwort!';
+    }
+  }
+
+  function übernehmen(id) {
+    const a = auftraege.find(a => a.id === id);
+    if(a.owner === null) {
+      a.owner = currentUser;
+      sendToDiscord(`${currentUser} hat Auftrag "${a.text}" übernommen.`);
+      renderAuftraege();
+    }
+  }
+
+  function freigeben(id) {
+    const a = auftraege.find(a => a.id === id);
+    if(a.owner === currentUser) {
+      a.owner = null;
+      sendToDiscord(`${currentUser} hat Auftrag "${a.text}" freigegeben.`);
+      renderAuftraege();
+    }
+  }
+
+  function sendToDiscord(message) {
+    const webhookURL = "DEIN_DISCORD_WEBHOOK_URL_HIER";
+
+    fetch(webhookURL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content: message })
+    }).catch(e => {
+      console.warn('Webhook Fehler:', e);
+    });
+  }
+
+  document.getElementById('login-btn').addEventListener('click', login);
+  document.getElementById('password').addEventListener('keypress', e => {
+    if(e.key === 'Enter') login();
+  });
+</script>
+
+</body>
+</html>
 
 </body>
 </html>
