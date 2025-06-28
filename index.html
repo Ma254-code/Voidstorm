@@ -24,7 +24,7 @@
   <script>
     const users = [
       { username: 'Admin', password: 'Admin' },
-      { username: 'Benn1', password: 'Benn1' },
+      { username: 'Benn1', password: 'BlackStudio3013' },
       { username: 'luca', password: 'Voidstorm1532' }
     ];
 
@@ -32,14 +32,10 @@
 
     // Beispielaufträge (kannst du im Script ändern)
     let auftraege = JSON.parse(localStorage.getItem('auftraege')) || [
-      { id: 1, text: 'Script Auftrag 1', owner: null },
-      { id: 2, text: 'Script Auftrag 2', owner: null },
-      { id: 3, text: 'Script Auftrag 3', owner: null }
+      { id: 1, text: 'Tebex', owner: null },
+      { id: 2, text: 'Rang plugin', owner: null },
+      { id: 3, text: 'Ban plugin', owner: null }
     ];
-
-    function saveAuftraege() {
-      localStorage.setItem('auftraege', JSON.stringify(auftraege));
-    }
 
     function renderAuftraege() {
       const container = document.getElementById('auftraege');
@@ -100,7 +96,7 @@
 
     function sendToDiscord(message) {
       // Deine Webhook URL hier einfügen
-      const webhookURL = "DEIN_DISCORD_WEBHOOK_URL";
+      const webhookURL = "https://discord.com/api/webhooks/1388602587217137814/n2YvLRetuZmJEr926cs4cHvISulOzpvnJgQO7nxvaPhLncMB3zXbMdK91WJ0SSw7yhnA";
 
       fetch(webhookURL, {
         method: 'POST',
