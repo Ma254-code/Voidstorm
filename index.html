@@ -4,26 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Auftragsverwaltung</title>
-  <style>
-    body { font-family: sans-serif; background: #f0f0f0; padding: 20px; }
-    #login, #main { max-width: 500px; margin: auto; padding: 20px; background: white; border-radius: 8px; }
-    .hidden { display: none; }
-    button { padding: 8px 12px; margin: 5px; }
-    .auftrag { border: 1px solid #ddd; padding: 10px; margin: 10px 0; }
-  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <div id="login">
-    <h2>Login</h2>
-    <input type="text" id="username" placeholder="Benutzername" /><br>
-    <input type="password" id="password" placeholder="Passwort" /><br>
-    <button onclick="login()">Login</button>
-    <div id="loginMsg"></div>
+<body class="bg-gray-100">
+
+  <div id="login" class="max-w-md mx-auto mt-20 p-6 bg-white rounded-xl shadow-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Login</h2>
+    <input type="text" id="username" placeholder="Benutzername" class="w-full border px-3 py-2 mb-3 rounded" />
+    <input type="password" id="password" placeholder="Passwort" class="w-full border px-3 py-2 mb-3 rounded" />
+    <button onclick="login()" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Login</button>
+    <div id="loginMsg" class="text-red-500 mt-2 text-center"></div>
   </div>
 
-  <div id="main" class="hidden">
-    <h2>Aufträge</h2>
-    <div id="auftraege"></div>
+  <div id="main" class="hidden max-w-xl mx-auto mt-10">
+    <h2 class="text-3xl font-bold mb-6 text-center">Aufträge</h2>
+    <div id="auftraege" class="space-y-4"></div>
   </div>
 
   <script>
@@ -35,7 +30,7 @@
 
     let currentUser = null;
 
-    // Lade Aufträge aus LocalStorage oder verwende Default
+    // Lade Aufträge aus LocalStorage oder Default
     let auftraege = JSON.parse(localStorage.getItem('auftraege')) || [
       { id: 1, text: 'Script Auftrag 1', owner: null },
       { id: 2, text: 'Script Auftrag 2', owner: null },
@@ -66,12 +61,14 @@
       container.innerHTML = '';
       auftraege.forEach(a => {
         const div = document.createElement('div');
-        div.className = 'auftrag';
+        div.className = 'bg-white p-4 rounded shadow';
         div.innerHTML = `
-          <strong>${a.text}</strong><br>
-          Status: ${a.owner ? 'Übernommen von ' + a.owner : 'Frei'}<br>
-          ${a.owner === null ? `<button onclick="uebernehmen(${a.id})">Übernehmen</button>` : ''}
-          ${a.owner === currentUser ? `<button onclick="freigeben(${a.id})">Freigeben</button>` : ''}
+          <div class="text-lg font-semibold mb-2">${a.text}</div>
+          <div class="mb-2">Status: ${a.owner ? `<span class="text-green-600 font-bold">Übernommen von ${a.owner}</span>` : '<span class="text-gray-500">Frei</span>'}</div>
+          <div>
+            ${a.owner === null ? `<button onclick="uebernehmen(${a.id})" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Übernehmen</button>` : ''}
+            ${a.owner === currentUser ? `<button onclick="freigeben(${a.id})" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 ml-2">Freigeben</button>` : ''}
+          </div>
         `;
         container.appendChild(div);
       });
@@ -97,3 +94,4 @@
   </script>
 </body>
 </html>
+
